@@ -2,7 +2,7 @@ package service.impl.facilityServiceImpl;
 
 import models.facility.Facility;
 import models.facility.Room;
-import service.facilityService.RoomService;
+import service.facility_service.RoomService;
 import util.enterInformation.facilityInfor.EnterFacilityInformation;
 
 import java.util.Scanner;

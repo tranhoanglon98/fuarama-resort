@@ -1,7 +1,7 @@
 package service.impl.personServiceImpl;
 
 import models.person.Customer;
-import service.personService.CustomerService;
+import service.person_service.CustomerService;
 import util.enterInformation.PersonInfor.EnterPersonInfomation;
 import util.ReadAndWriteFile.ReadAndWriteCustomer;
 import util.enterInformation.Regex;
@@ -57,7 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customers = ReadAndWriteCustomer.readCustomerDataFile();
         String customer = "";
         for (int i = 0; i < customers.size(); i++) {
-            System.out.println((i + 1) + ". Employee ID : " + customers.get(i).getCustomerId() + ", name: " + customers.get(i).getName());
+            System.out.println((i + 1) + ". Employee ID : " + customers.get(i).getCustomerCode() + ", name: " + customers.get(i).getName());
         }
         do {
             System.out.println("Enter employeeID of employee you want to edit");
@@ -68,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
         } while (!Regex.checkCustomerIdFormat(customer));
 
         for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getCustomerId().equals(customer)) {
+            if (customers.get(i).getCustomerCode().equals(customer)) {
                 String choose = "";
                 do {
                     System.out.println("-----EDIT-----" +
@@ -105,7 +105,7 @@ public class CustomerServiceImpl implements CustomerService {
                             customers.get(i).setEmail(EnterPersonInfomation.enterEmail());
                             break;
                         case "7":
-                            customers.get(i).setCustomerId(EnterPersonInfomation.enterCustomerId());
+                            customers.get(i).setCustomerCode(EnterPersonInfomation.enterCustomerId());
                             break;
                         case "8":
                             customers.get(i).setCustomerType(EnterPersonInfomation.enterTypeOfCustomer());

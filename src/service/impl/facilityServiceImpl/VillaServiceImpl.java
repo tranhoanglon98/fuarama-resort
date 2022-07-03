@@ -2,7 +2,7 @@ package service.impl.facilityServiceImpl;
 
 import models.facility.Facility;
 import models.facility.Villa;
-import service.facilityService.VillaService;
+import service.facility_service.VillaService;
 import util.enterInformation.facilityInfor.EnterFacilityInformation;
 
 public class VillaServiceImpl implements VillaService {

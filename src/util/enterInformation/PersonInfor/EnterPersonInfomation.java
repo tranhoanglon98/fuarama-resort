@@ -207,10 +207,10 @@ public class EnterPersonInfomation {
             employeeId = scanner.nextLine();
             if (!Regex.checkEmployeeIdFormat(employeeId)) {
                 System.out.println("Wrong format, enter again:");
-            } else if (CheckPersonInfomation.checkEmployeeId(employeeId)) {
+            } else if (CheckPersonInfomation.checkEmployeeCode(employeeId)) {
                 System.out.println("Employee Id already exits, enter again:");
             }
-        } while (!Regex.checkEmployeeIdFormat(employeeId) || CheckPersonInfomation.checkEmployeeId(employeeId));
+        } while (!Regex.checkEmployeeIdFormat(employeeId) || CheckPersonInfomation.checkEmployeeCode(employeeId));
         return employeeId;
     }
 
@@ -236,10 +236,10 @@ public class EnterPersonInfomation {
             customerId = scanner.nextLine();
             if (!Regex.checkCustomerIdFormat(customerId)) {
                 System.out.println("Wrong format, enter again:");
-            } else if (CheckPersonInfomation.checkCustomerId(customerId)) {
+            } else if (CheckPersonInfomation.checkCustomerCode(customerId)) {
                 System.out.println("Customer Id already exits, enter again:");
             }
-        } while (!Regex.checkCustomerIdFormat(customerId) || CheckPersonInfomation.checkCustomerId(customerId));
+        } while (!Regex.checkCustomerIdFormat(customerId) || CheckPersonInfomation.checkCustomerCode(customerId));
         return customerId;
     }
 

@@ -1,10 +1,10 @@
 package service.impl.facilityServiceImpl;
 
 import models.facility.Facility;
-import service.facilityService.FacilityService;
-import service.facilityService.HouseService;
-import service.facilityService.RoomService;
-import service.facilityService.VillaService;
+import service.facility_service.FacilityService;
+import service.facility_service.HouseService;
+import service.facility_service.RoomService;
+import service.facility_service.VillaService;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
 
 import java.util.*;

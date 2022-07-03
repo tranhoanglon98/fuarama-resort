@@ -1,7 +1,7 @@
 package controller;
 
 import service.impl.personServiceImpl.EmployeeServiceImpl;
-import service.personService.EmployeeService;
+import service.person_service.EmployeeService;
 
 import java.util.Scanner;
 

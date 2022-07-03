@@ -4,7 +4,7 @@ package models.person;
 import java.time.LocalDate;
 
 public class Employee extends Person {
-    private String employeeId;
+    private String employeeCode;
     private String educationLevel;
     private String position;
     private double salary;
@@ -12,20 +12,20 @@ public class Employee extends Person {
     public Employee() {
     }
 
-    public Employee(String name, LocalDate dayOfBirth, String gender, String id, String phoneNumber, String email, String employeeId, String educationLevel, String position, double salary) {
+    public Employee(String name, LocalDate dayOfBirth, String gender, String id, String phoneNumber, String email, String employeeCode, String educationLevel, String position, double salary) {
         super(name, dayOfBirth, gender, id, phoneNumber, email);
-        this.employeeId = employeeId;
+        this.employeeCode = employeeCode;
         this.educationLevel = educationLevel;
         this.position = position;
         this.salary = salary;
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getEmployeeCode() {
+        return employeeCode;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployeeCode(String employeeCode) {
+        this.employeeCode = employeeCode;
     }
 
     public String getEducationLevel() {
@@ -54,11 +54,11 @@ public class Employee extends Person {
 
     @Override
     public String getInfoToCsvFile() {
-        return super.getInfoToCsvFile()+ "," +getEmployeeId()+ "," + getEducationLevel()+ "," +getPosition()+ "," +getSalary();
+        return super.getInfoToCsvFile()+ "," + getEmployeeCode()+ "," + getEducationLevel()+ "," +getPosition()+ "," +getSalary();
     }
 
     @Override
     public String toString() {
-        return super.toString() + ", employee id = " + employeeId + ", education level = " + educationLevel + ", position = " + position+", salary = " + salary;
+        return super.toString() + ", employee id = " + employeeCode + ", education level = " + educationLevel + ", position = " + position+", salary = " + salary;
     }
 }

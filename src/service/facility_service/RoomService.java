@@ -1,4 +1,4 @@
-package service.facilityService;
+package service.facility_service;
 
 public interface RoomService extends FacilityAddService{
 }

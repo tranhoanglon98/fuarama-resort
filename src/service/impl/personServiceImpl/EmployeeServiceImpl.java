@@ -1,7 +1,7 @@
 package service.impl.personServiceImpl;
 
 import models.person.Employee;
-import service.personService.EmployeeService;
+import service.person_service.EmployeeService;
 import util.ReadAndWriteFile.ReadAndWriteEmployee;
 import util.enterInformation.PersonInfor.EnterPersonInfomation;
 import util.enterInformation.Regex;
@@ -58,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> employees = ReadAndWriteEmployee.readEmployeeDataFile();
         String employeeId;
         for (int i = 0; i < employees.size(); i++) {
-            System.out.println((i + 1) + ". Employee ID : " + employees.get(i).getEmployeeId() + ", name: " + employees.get(i).getName());
+            System.out.println((i + 1) + ". Employee ID : " + employees.get(i).getEmployeeCode() + ", name: " + employees.get(i).getName());
         }
         do {
             System.out.println("Enter employeeID of employee you want to edit");
@@ -69,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         } while (!Regex.checkEmployeeIdFormat(employeeId));
 
         for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getEmployeeId().equals(employeeId)) {
+            if (employees.get(i).getEmployeeCode().equals(employeeId)) {
                 String choose;
                 do {
                     System.out.println("-----EDIT-----" +
@@ -107,7 +107,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                             employees.get(i).setEmail(EnterPersonInfomation.enterEmail());
                             break;
                         case "7":
-                            employees.get(i).setEmployeeId(EnterPersonInfomation.enterEmployeeId());
+                            employees.get(i).setEmployeeCode(EnterPersonInfomation.enterEmployeeId());
                             break;
                         case "8":
                             employees.get(i).setEducationLevel(EnterPersonInfomation.chooseEducationLevel());

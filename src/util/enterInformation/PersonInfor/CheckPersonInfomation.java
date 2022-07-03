@@ -9,20 +9,20 @@ import java.util.List;
 
 public class CheckPersonInfomation {
 
-    public static boolean checkEmployeeId(String employeeId) {
+    public static boolean checkEmployeeCode(String employeeId) {
             List<Employee> employees = ReadAndWriteEmployee.readEmployeeDataFile();
             for (Employee e : employees) {
-                if (e.getEmployeeId().equals(employeeId)) {
+                if (e.getEmployeeCode().equals(employeeId)) {
                     return true;
                 }
             }
             return false;
         }
 
-    public static boolean checkCustomerId(String employeeId) {
+    public static boolean checkCustomerCode(String employeeId) {
         List<Customer> customers = ReadAndWriteCustomer.readCustomerDataFile();
         for (Customer c : customers) {
-            if (c.getCustomerId().equals(employeeId)) {
+            if (c.getCustomerCode().equals(employeeId)) {
                 return true;
             }
         }

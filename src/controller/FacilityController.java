@@ -1,6 +1,6 @@
 package controller;
 
-import service.facilityService.FacilityService;
+import service.facility_service.FacilityService;
 import service.impl.facilityServiceImpl.FacilityServiceImpl;
 
 import java.util.Scanner;

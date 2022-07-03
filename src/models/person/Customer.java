@@ -3,26 +3,26 @@ package models.person;
 import java.time.LocalDate;
 
 public class Customer extends Person{
-    private String customerId;
+    private String customerCode;
     private String customerType;
     private String address;
 
     public Customer() {
     }
 
-    public Customer(String name, LocalDate dayOfBirth, String gender, String id, String phoneNumber, String email, String customerId, String customerType, String address) {
+    public Customer(String name, LocalDate dayOfBirth, String gender, String id, String phoneNumber, String email, String customerCode, String customerType, String address) {
         super(name, dayOfBirth, gender, id, phoneNumber, email);
-        this.customerId = customerId;
+        this.customerCode = customerCode;
         this.customerType = customerType;
         this.address = address;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getCustomerCode() {
+        return customerCode;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
     }
 
     public String getCustomerType() {
@@ -43,11 +43,11 @@ public class Customer extends Person{
 
     @Override
     public String getInfoToCsvFile() {
-        return super.getInfoToCsvFile()+ "," +getCustomerId()+ "," +getCustomerType()+ "," +getAddress();
+        return super.getInfoToCsvFile()+ "," + getCustomerCode()+ "," +getCustomerType()+ "," +getAddress();
     }
 
     @Override
     public String toString() {
-        return super.toString() + ", Customer ID = " + customerId + ", Customer Type = " + customerType + ", Address = " + address;
+        return super.toString() + ", Customer ID = " + customerCode + ", Customer Type = " + customerType + ", Address = " + address;
     }
 }
