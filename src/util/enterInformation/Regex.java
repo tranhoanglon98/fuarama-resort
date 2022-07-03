@@ -12,6 +12,7 @@ public class Regex {
     private static final String EMPLOYEE_ID_REGEX = "^E-\\d{6}$";
     private static final String CUSTOMER_ID_REGEX = "^C-\\d{6}$";
     private static final String SERVICE_NAME_REGEX = "^[A-Z][a-z]+-\\d\\d+$";
+    private static final String BOOKING_CODE_REGEX = "^BK-\\d{4}$";
 
     public static boolean checkNameFormat(String name) {
         return name.matches(NAME_REGEX);
@@ -48,5 +49,9 @@ public class Regex {
 
     public static boolean checkServiceNameFormat(String serviceName){
         return serviceName.matches(SERVICE_NAME_REGEX);
+    }
+
+    public static boolean checkBookingCodeFormat(String bookingCode){
+        return bookingCode.matches(BOOKING_CODE_REGEX);
     }
 }

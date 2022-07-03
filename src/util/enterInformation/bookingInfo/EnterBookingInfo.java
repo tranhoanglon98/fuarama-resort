@@ -4,6 +4,7 @@ import models.booking_contract.Booking;
 import models.person.Customer;
 import util.ReadAndWriteFile.ReadAndWriteBooking;
 import util.ReadAndWriteFile.ReadAndWriteCustomer;
+import util.enterInformation.Regex;
 
 import java.util.List;
 import java.util.Scanner;
@@ -36,13 +37,26 @@ public class EnterBookingInfo {
         return customers.get(choose - 1).getCustomerCode();
     }
 
-    public static String enterBookingCode(){
+    public static String enterBookingCode() {
         String bookingCode;
+        boolean flag;
         List<Booking> bookings = ReadAndWriteBooking.readBookingDataFile();
         do {
+            flag = false;
             System.out.println("Enter booking code");
             bookingCode = SCANNER.nextLine();
-        }while ();
+            if (!Regex.checkBookingCodeFormat(bookingCode)) {
+                System.err.println("Wrong format, enter again.");
+                flag = true;
+            } else {
+                for (Booking b : bookings) {
+                    if (b.getBookingCode().equals(bookingCode)) {
+                        System.err.println("Booking code is already exits, enter again.");
+                        flag = true;
+                    }
+                }
+            }
+        } while (flag);
 
         return bookingCode;
     }

@@ -9,12 +9,12 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class EnterPersonInfomation {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static String chooseEducationLevel() {
         String educationLevel = "";
-        String choose = "";
-        boolean flag = false;
+        String choose;
+        boolean flag;
         do {
             flag = false;
             System.out.println("1. Đại Học" +
@@ -23,7 +23,7 @@ public class EnterPersonInfomation {
                     "\n4. Sau đại học" +
                     "\n5. 12/12" +
                     "\nEnter your choice:");
-            choose = scanner.nextLine();
+            choose = SCANNER.nextLine();
             switch (choose) {
                 case "1":
                     educationLevel = "Đại học";
@@ -51,8 +51,8 @@ public class EnterPersonInfomation {
 
     public static String choosePosition() {
         String position = "";
-        String choose = "";
-        boolean flag = false;
+        String choose;
+        boolean flag;
         do {
             flag = false;
             System.out.println("1. Lễ tân" +
@@ -62,7 +62,7 @@ public class EnterPersonInfomation {
                     "\n5. Quản lý" +
                     "\n6. Giám đốc" +
                     "\nEnter your choice:");
-            choose = scanner.nextLine();
+            choose = SCANNER.nextLine();
             switch (choose) {
                 case "1":
                     position = "Lễ tân";
@@ -91,48 +91,44 @@ public class EnterPersonInfomation {
     }
 
     public static String chooseGender() {
-        String choose = "";
-        String gender = "";
-        boolean flag = false;
+        String choose;
+        String gender;
         do {
-            flag = false;
             System.out.println("Gender:" +
                     "\n1. Male" +
                     "\n2. Female" +
                     "\nEnter your choice:");
-            choose = scanner.nextLine();
+            choose = SCANNER.nextLine();
             if (choose.equals("1")) {
                 gender = "Male";
+                break;
             } else if (choose.equals("2")) {
                 gender = "Female";
+                break;
             } else {
                 System.out.println("choose again:");
-                flag = true;
             }
-        } while (flag);
+        } while (true);
         return gender;
     }
 
     public static LocalDate enterDay(String day) {
-        boolean flag = false;
-        LocalDate localDate = null;
+        LocalDate localDate;
         do {
-            flag = false;
             System.out.println("Enter " + day);
             try {
-                localDate = LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                localDate = LocalDate.parse(SCANNER.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 int age = Period.between(localDate, LocalDate.now()).getYears();
                 if (age < 18 || age > 100) {
                     throw new Exception("age > 100 or age < 18");
                 }
+                break;
             } catch (DateTimeParseException e) {
-                System.out.println("Wrong format, enter again");
-                flag = true;
+                System.err.println("Wrong format, enter again");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                flag = true;
             }
-        } while (flag);
+        } while (true);
         return localDate;
     }
 
@@ -140,7 +136,7 @@ public class EnterPersonInfomation {
         String name;
         do {
             System.out.println("Enter name:");
-            name = scanner.nextLine();
+            name = SCANNER.nextLine();
             if (!Regex.checkNameFormat(name)) {
                 System.out.println("Wrong format, enter again:");
             }
@@ -149,10 +145,10 @@ public class EnterPersonInfomation {
     }
 
     public static String enterIdOfEmployee() {
-        String id = "";
+        String id;
         do {
             System.out.println("Enter id (12 numbers)");
-            id = scanner.nextLine();
+            id = SCANNER.nextLine();
             if (!Regex.checkIdFormat(id)) {
                 System.out.println("Wrong format, enter again:");
             } else if (CheckPersonInfomation.checkIdOfEmployee(id)) {
@@ -163,10 +159,10 @@ public class EnterPersonInfomation {
     }
 
     public static String enterIdOfCustomer() {
-        String id = "";
+        String id;
         do {
             System.out.println("Enter id (12 numbers)");
-            id = scanner.nextLine();
+            id = SCANNER.nextLine();
             if (!Regex.checkIdFormat(id)) {
                 System.out.println("Wrong format, enter again:");
             } else if (CheckPersonInfomation.checkIdOfCustomer(id)) {
@@ -177,10 +173,10 @@ public class EnterPersonInfomation {
     }
 
     public static String enterPhoneNumber() {
-        String phoneNumber = "";
+        String phoneNumber;
         do {
             System.out.println("Enter phone number (0xxxxxxxx : 10 numbers)");
-            phoneNumber = scanner.nextLine();
+            phoneNumber = SCANNER.nextLine();
             if (!Regex.checkPhoneNumberFormat(phoneNumber)) {
                 System.out.println("Wrong format, enter again:");
             }
@@ -189,10 +185,10 @@ public class EnterPersonInfomation {
     }
 
     public static String enterEmail() {
-        String email = "";
+        String email;
         do {
             System.out.println("Enter email:");
-            email = scanner.nextLine();
+            email = SCANNER.nextLine();
             if (!Regex.checkEmailFormat(email)) {
                 System.out.println("Wrong format, enter again:");
             }
@@ -201,10 +197,10 @@ public class EnterPersonInfomation {
     }
 
     public static String enterEmployeeId() {
-        String employeeId = "";
+        String employeeId;
         do {
             System.out.println("Enter employee id (E-123456)");
-            employeeId = scanner.nextLine();
+            employeeId = SCANNER.nextLine();
             if (!Regex.checkEmployeeIdFormat(employeeId)) {
                 System.out.println("Wrong format, enter again:");
             } else if (CheckPersonInfomation.checkEmployeeCode(employeeId)) {
@@ -220,7 +216,7 @@ public class EnterPersonInfomation {
         do {
             try {
                 System.out.println("Enter salary");
-                salary = Double.parseDouble(scanner.nextLine());
+                salary = Double.parseDouble(SCANNER.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Wrong format, enter again:");
                 flag = true;
@@ -230,10 +226,10 @@ public class EnterPersonInfomation {
     }
 
     public static String enterCustomerId() {
-        String customerId = "";
+        String customerId;
         do {
             System.out.println("Enter customer id (C-123456)");
-            customerId = scanner.nextLine();
+            customerId = SCANNER.nextLine();
             if (!Regex.checkCustomerIdFormat(customerId)) {
                 System.out.println("Wrong format, enter again:");
             } else if (CheckPersonInfomation.checkCustomerCode(customerId)) {
@@ -245,8 +241,8 @@ public class EnterPersonInfomation {
 
     public static String enterTypeOfCustomer() {
         String customerType = "";
-        String choose = "";
-        boolean flag = false;
+        String choose;
+        boolean flag;
         do {
             flag = false;
             System.out.println("1. Diamond" +
@@ -255,7 +251,7 @@ public class EnterPersonInfomation {
                     "\n4. Silver" +
                     "\n5. Member" +
                     "\n----Enter your choice----");
-            choose = scanner.nextLine();
+            choose = SCANNER.nextLine();
             switch (choose) {
                 case "1":
                     customerType = "Diamond";
