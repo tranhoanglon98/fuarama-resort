@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class Booking {
     private String bookingCode;
-    private LocalDate startDay;
-    private LocalDate endDay;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
     private String customerCode;
     private String serviceName;
     private String service;
@@ -13,10 +13,10 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(String bookingCode, LocalDate startDay, LocalDate endDay, String customerCode, String serviceName, String service) {
+    public Booking(String bookingCode, LocalDate checkInDate, LocalDate checkOutDate, String customerCode, String serviceName, String service) {
         this.bookingCode = bookingCode;
-        this.startDay = startDay;
-        this.endDay = endDay;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
         this.customerCode = customerCode;
         this.serviceName = serviceName;
         this.service = service;
@@ -30,20 +30,20 @@ public class Booking {
         this.bookingCode = bookingCode;
     }
 
-    public LocalDate getStartDay() {
-        return startDay;
+    public LocalDate getCheckInDate() {
+        return checkInDate;
     }
 
-    public void setStartDay(LocalDate startDay) {
-        this.startDay = startDay;
+    public void setCheckInDate(LocalDate checkInDate) {
+        this.checkInDate = checkInDate;
     }
 
-    public LocalDate getEndDay() {
-        return endDay;
+    public LocalDate getCheckOutDate() {
+        return checkOutDate;
     }
 
-    public void setEndDay(LocalDate endDay) {
-        this.endDay = endDay;
+    public void setCheckOutDate(LocalDate checkOutDate) {
+        this.checkOutDate = checkOutDate;
     }
 
     public String getCustomerCode() {
@@ -71,6 +71,6 @@ public class Booking {
     }
 
     public String getInfoToCsvFile(){
-        return bookingCode+","+startDay+","+ endDay +","+customerCode+","+serviceName+","+service;
+        return bookingCode+","+ checkInDate +","+ checkOutDate +","+customerCode+","+serviceName+","+service;
     }
 }

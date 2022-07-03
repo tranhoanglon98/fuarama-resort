@@ -19,7 +19,7 @@ public class EnterFacilityInformation {
         String serviceName = "";
         do {
             isServiceNameExist = false;
-            System.out.println("Enter service name(ex: Villa-01)");
+            System.out.println("Enter service name(ex: SVHO-0001 or SVVL-0002 or SVRO-0003)");
             serviceName = scanner.nextLine();
             if (!Regex.checkServiceNameFormat(serviceName)) {
                 System.out.println("Wrong format, enter again:");

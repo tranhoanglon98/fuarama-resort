@@ -1,8 +1,13 @@
 package controller;
 
+import service.booking_service.BookingService;
+import service.impl.BookingServiceImpl.BookingServiceImpl;
+
 import java.util.Scanner;
 
 public class BookingController {
+    private static final BookingService BOOKING_SERVICE = new BookingServiceImpl();
+
     public static void bookingManagement() {
         Scanner scanner = new Scanner(System.in);
         String choose;
@@ -16,11 +21,11 @@ public class BookingController {
             System.out.println("Enter your choice:");
             choose = scanner.nextLine();
             switch (choose) {
-                case "1":
-                case "2":
-                case "3":
-                case "4":
-                case "5":
+                case "1":BOOKING_SERVICE.addNewBooking();break;
+                case "2":BOOKING_SERVICE.displayBookingList();break;
+                case "3":BOOKING_SERVICE.createNewContract();break;
+                case "4":BOOKING_SERVICE.displayContractList();break;
+                case "5":BOOKING_SERVICE.editContract();break;
                 case "6":
                     System.out.println("---- Return main menu ----");
                     break;

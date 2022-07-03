@@ -126,7 +126,7 @@ public class EnterPersonInfomation {
             } catch (DateTimeParseException e) {
                 System.err.println("Wrong format, enter again");
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.err.println(e.getMessage());
             }
         } while (true);
         return localDate;
@@ -138,7 +138,7 @@ public class EnterPersonInfomation {
             System.out.println("Enter name:");
             name = SCANNER.nextLine();
             if (!Regex.checkNameFormat(name)) {
-                System.out.println("Wrong format, enter again:");
+                System.err.println("Wrong format, enter again:");
             }
         } while (!Regex.checkNameFormat(name));
         return name;
@@ -150,9 +150,9 @@ public class EnterPersonInfomation {
             System.out.println("Enter id (12 numbers)");
             id = SCANNER.nextLine();
             if (!Regex.checkIdFormat(id)) {
-                System.out.println("Wrong format, enter again:");
+                System.err.println("Wrong format, enter again:");
             } else if (CheckPersonInfomation.checkIdOfEmployee(id)) {
-                System.out.println("Id already exits, enter again:");
+                System.err.println("Id already exits, enter again:");
             }
         } while (!Regex.checkIdFormat(id) || CheckPersonInfomation.checkIdOfEmployee(id));
         return id;
@@ -164,9 +164,9 @@ public class EnterPersonInfomation {
             System.out.println("Enter id (12 numbers)");
             id = SCANNER.nextLine();
             if (!Regex.checkIdFormat(id)) {
-                System.out.println("Wrong format, enter again:");
+                System.err.println("Wrong format, enter again:");
             } else if (CheckPersonInfomation.checkIdOfCustomer(id)) {
-                System.out.println("Id already exits, enter again:");
+                System.err.println("Id already exits, enter again:");
             }
         } while (!Regex.checkIdFormat(id) || CheckPersonInfomation.checkIdOfCustomer(id));
         return id;
@@ -202,9 +202,9 @@ public class EnterPersonInfomation {
             System.out.println("Enter employee id (E-123456)");
             employeeId = SCANNER.nextLine();
             if (!Regex.checkEmployeeIdFormat(employeeId)) {
-                System.out.println("Wrong format, enter again:");
+                System.err.println("Wrong format, enter again:");
             } else if (CheckPersonInfomation.checkEmployeeCode(employeeId)) {
-                System.out.println("Employee Id already exits, enter again:");
+                System.err.println("Employee Id already exits, enter again:");
             }
         } while (!Regex.checkEmployeeIdFormat(employeeId) || CheckPersonInfomation.checkEmployeeCode(employeeId));
         return employeeId;
@@ -215,10 +215,10 @@ public class EnterPersonInfomation {
         boolean flag = false;
         do {
             try {
-                System.out.println("Enter salary");
+                System.err.println("Enter salary");
                 salary = Double.parseDouble(SCANNER.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Wrong format, enter again:");
+                System.err.println("Wrong format, enter again:");
                 flag = true;
             }
         } while (flag);
@@ -231,9 +231,9 @@ public class EnterPersonInfomation {
             System.out.println("Enter customer id (C-123456)");
             customerId = SCANNER.nextLine();
             if (!Regex.checkCustomerIdFormat(customerId)) {
-                System.out.println("Wrong format, enter again:");
+                System.err.println("Wrong format, enter again:");
             } else if (CheckPersonInfomation.checkCustomerCode(customerId)) {
-                System.out.println("Customer Id already exits, enter again:");
+                System.err.println("Customer Id already exits, enter again:");
             }
         } while (!Regex.checkCustomerIdFormat(customerId) || CheckPersonInfomation.checkCustomerCode(customerId));
         return customerId;
@@ -269,7 +269,7 @@ public class EnterPersonInfomation {
                     customerType = "Member";
                     break;
                 default: {
-                    System.out.println("just choose from 1 to 5, choose again:");
+                    System.err.println("just choose from 1 to 5, choose again:");
                     flag = true;
                 }
             }

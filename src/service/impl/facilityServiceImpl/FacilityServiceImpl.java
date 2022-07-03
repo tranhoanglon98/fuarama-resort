@@ -59,7 +59,7 @@ public class FacilityServiceImpl implements FacilityService {
             }
         } while (!choose.equals("4"));
 
-        ReadAndWriteFacility.writeCustomerDataFile(facilityMap, true);
+        ReadAndWriteFacility.writeFacilityDataFile(facilityMap, true);
     }
 
     @Override

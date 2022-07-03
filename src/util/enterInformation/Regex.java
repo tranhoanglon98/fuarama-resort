@@ -11,7 +11,7 @@ public class Regex {
     private static final String EMAIL_REGEX = "^[a-zA-Z\\d]+@[a-zA-Z]+\\.[a-zA-Z]+$";
     private static final String EMPLOYEE_ID_REGEX = "^E-\\d{6}$";
     private static final String CUSTOMER_ID_REGEX = "^C-\\d{6}$";
-    private static final String SERVICE_NAME_REGEX = "^[A-Z][a-z]+-\\d\\d+$";
+    private static final String SERVICE_NAME_REGEX = "^SV(VL|HO|RO)-\\d{4}$";
     private static final String BOOKING_CODE_REGEX = "^BK-\\d{4}$";
 
     public static boolean checkNameFormat(String name) {

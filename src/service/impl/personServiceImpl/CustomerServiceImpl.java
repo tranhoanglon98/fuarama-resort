@@ -57,13 +57,13 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customers = ReadAndWriteCustomer.readCustomerDataFile();
         String customer = "";
         for (int i = 0; i < customers.size(); i++) {
-            System.out.println((i + 1) + ". Employee ID : " + customers.get(i).getCustomerCode() + ", name: " + customers.get(i).getName());
+            System.out.println((i + 1) + ". Customer code : " + customers.get(i).getCustomerCode() + ", name: " + customers.get(i).getName());
         }
         do {
-            System.out.println("Enter employeeID of employee you want to edit");
+            System.out.println("Enter customer code of customer you want to edit");
             customer = scanner.nextLine();
             if (!Regex.checkCustomerIdFormat(customer)) {
-                System.out.println("Wrong format, enter again:");
+                System.err.println("Wrong format, enter again:");
             }
         } while (!Regex.checkCustomerIdFormat(customer));
 
