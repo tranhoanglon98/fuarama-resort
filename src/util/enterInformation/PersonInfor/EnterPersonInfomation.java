@@ -3,7 +3,6 @@ package util.enterInformation.PersonInfor;
 import util.enterInformation.Regex;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -118,7 +117,7 @@ public class EnterPersonInfomation {
             System.out.println("Enter " + day);
             try {
                 localDate = LocalDate.parse(SCANNER.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                int age = Period.between(localDate, LocalDate.now()).getYears();
+                int age = (localDate.until(LocalDate.now())).getYears();
                 if (age < 18 || age > 100) {
                     throw new Exception("age > 100 or age < 18");
                 }

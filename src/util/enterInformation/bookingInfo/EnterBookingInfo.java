@@ -6,7 +6,6 @@ import models.person.Customer;
 import util.ReadAndWriteFile.ReadAndWriteBooking;
 import util.ReadAndWriteFile.ReadAndWriteCustomer;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
-import util.enterInformation.Regex;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -43,98 +42,111 @@ public class EnterBookingInfo {
 
     public static String enterBookingCode() {
         String bookingCode;
-        boolean flag;
         List<Booking> bookings = ReadAndWriteBooking.readBookingDataFile();
-        do {
-            flag = false;
-            System.out.println("Enter booking code(ex: BK-0001)");
-            bookingCode = SCANNER.nextLine();
-            if (!Regex.checkBookingCodeFormat(bookingCode)) {
-                System.err.println("Wrong format, enter again.");
-                flag = true;
-            } else {
-                for (Booking b : bookings) {
-                    if (b.getBookingCode().equals(bookingCode)) {
-                        System.err.println("Booking code is already exits, enter again.");
-                        flag = true;
-                    }
+        if (bookings.isEmpty()) {
+            bookingCode = "BK-1";
+        } else {
+            int max = 0;
+            for (Booking b : bookings) {
+                String[] arr = b.getBookingCode().split("-");
+                if (max < Integer.parseInt(arr[1])) {
+                    max = Integer.parseInt(arr[1]);
                 }
             }
-        } while (flag);
-
+            bookingCode = "BK-" + (max + 1);
+        }
         return bookingCode;
     }
 
-    public static LocalDate enterCheckInDay() {
-        LocalDate checkInDay;
+    public static LocalDate enterCheckInDay(String serviceCode) {
+        LocalDate checkInDay = null;
+        boolean flag;
         do {
+            flag = false;
             try {
-                System.out.println("Enter start day:");
+                System.out.println("Enter check-in day:");
                 checkInDay = LocalDate.parse(SCANNER.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                if (checkInDay.isBefore(LocalDate.now())){
+                if (checkInDay.isBefore(LocalDate.now())) {
                     System.err.println("Check-in day cannot be earlier than today");
-                }else {
-                    break;
+                    flag = true;
+                } else {
+                    List<Booking> bookingList = ReadAndWriteBooking.readBookingDataFile();
+                    for (Booking b : bookingList) {
+                        if (b.getServiceCode().equals(serviceCode)) {
+                            if (!checkInDay.isBefore(b.getCheckInDate()) && !checkInDay.isAfter(b.getCheckOutDate())) {
+                                flag = true;
+                                System.err.println("Room was booked for this day, enter check-in day again:");
+                                break;
+                            }
+                        }
+                    }
                 }
             } catch (DateTimeParseException e) {
                 System.err.println("Wrong format, enter again.");
+                flag = true;
             }
-        } while (true);
+        } while (flag);
         return checkInDay;
     }
 
-    public static LocalDate enterCheckOutDay(LocalDate checkInDay, String serviceName){
-        Map<Facility,Integer> facilityIntegerMap = ReadAndWriteFacility.readFacilityDataFile();
-        List<Facility> facilityList = new LinkedList<>(facilityIntegerMap.keySet());
-        boolean isRentByHours = false;
-        for (Facility f:facilityList){
-            if (f.getServiceName().equals(serviceName) && f.getRentType().equals("hours")) {
-                isRentByHours = true;
-                break;
-            }
-        }
-        LocalDate checkOutDay;
+    public static LocalDate enterCheckOutDay(LocalDate checkInDay, String serviceCode) {
+        LocalDate checkOutDay = null;
+        boolean flag;
         do {
+            flag = false;
             try {
-                if (isRentByHours){
-                    checkOutDay = checkInDay;
-                }else {
-                    System.out.println("Enter check-out day:");
-                    checkOutDay = LocalDate.parse(SCANNER.nextLine(),DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                    if (checkOutDay.isAfter(checkInDay)){
-                        break;
-                    }else {
-                        System.err.println("Check-out day has to be later than check-in day");
+                System.out.println("Enter check-out day:");
+                checkOutDay = LocalDate.parse(SCANNER.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                if (!checkOutDay.isBefore(checkInDay)) {
+                    List<Booking> bookingList = ReadAndWriteBooking.readBookingDataFile();
+                    for (Booking b : bookingList) {
+                        if (b.getServiceCode().equals(serviceCode)) {
+                            if ((checkInDay.isBefore(b.getCheckInDate()) && checkOutDay.isBefore(b.getCheckInDate())) || checkInDay.isAfter(b.getCheckOutDate())) {
+                                flag = false;
+                            } else {
+                                System.err.println("Room was booked for this day, enter check-in day again:");
+                                flag = true;
+                            }
+                        }
                     }
+                } else {
+                    System.err.println("Check-out day has to be later than check-in day");
+                    flag = true;
                 }
-            }catch (DateTimeParseException e){
+            } catch (DateTimeParseException e) {
                 System.err.println("Wrong format, enter again.");
+                flag = true;
             }
-        }while (true);
+        } while (flag);
         return checkOutDay;
     }
 
+
     public static String chooseService() {
-        Map<Facility, Integer> facilityIntegerMap = ReadAndWriteFacility.readFacilityDataFile();
-        List<Facility> facilityList = new LinkedList<>(facilityIntegerMap.keySet());
+        Map<Facility, Integer> map = ReadAndWriteFacility.readFacilityDataFile();
+        List<Facility> keyList = new LinkedList<>(map.keySet());
         Set<Facility> facilityMaintenance = new LinkedHashSet<>();
-        for (Facility f : facilityList) {
-            if (facilityIntegerMap.get(f) == 5) {
-                facilityMaintenance.add(f);
-                facilityList.remove(f);
+        for (int i = 0; i < keyList.size(); i++) {
+            if (map.get(keyList.get(i)) == 5) {
+                facilityMaintenance.add(keyList.get(i));
+                map.remove(keyList.get(i));
+                keyList.remove(keyList.get(i));
+                i--;
             }
         }
+        ReadAndWriteFacility.writeFacilityDataFile(map,false);
         ReadAndWriteFacility.writeFacilityMaintenanceDataFile(facilityMaintenance, true);
-        for (int i = 0; i < facilityList.size(); i++) {
-            System.out.println((i + 1) + ". " + facilityList.get(i).getServiceName());
+        for (int i = 0; i < keyList.size(); i++) {
+            System.out.println((i + 1) + ". " + keyList.get(i).getServiceCode() + ", rent by " + keyList.get(i).getRentType());
         }
+
         int choose;
         do {
             System.out.println("Choose service");
             try {
                 choose = Integer.parseInt(SCANNER.nextLine());
-                if (choose < 1 || choose > facilityList.size()) {
-                    System.err.println("just choose from 1 to " + facilityList.size());
+                if (choose < 1 || choose > keyList.size()) {
+                    System.err.println("just choose from 1 to " + keyList.size());
                 } else {
                     break;
                 }
@@ -142,6 +154,7 @@ public class EnterBookingInfo {
                 System.err.println("Wrong format, enter again");
             }
         } while (true);
-        return facilityList.get(choose - 1).getServiceName();
+
+        return keyList.get(choose - 1).getServiceCode();
     }
 }

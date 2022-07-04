@@ -10,7 +10,7 @@ public class VillaServiceImpl implements VillaService {
     @Override
     public Facility addFacility() {
 
-        String serviceName = EnterFacilityInformation.enterServiceName();
+        String serviceCode = EnterFacilityInformation.enterServiceCode();
 
         double area = EnterFacilityInformation.enterArea("area");
 
@@ -26,7 +26,7 @@ public class VillaServiceImpl implements VillaService {
 
         int floors = EnterFacilityInformation.enterFloors();
 
-        return new Villa(serviceName, area, price, maxPeople, rentType, roomStandard, poolArea, floors);
+        return new Villa(serviceCode, area, price, maxPeople, rentType, roomStandard, poolArea, floors);
     }
 
 }

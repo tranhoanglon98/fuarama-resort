@@ -4,7 +4,6 @@ import models.facility.Facility;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
 import util.enterInformation.Regex;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -12,27 +11,27 @@ import java.util.Set;
 public class EnterFacilityInformation {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static String enterServiceName() {
+    public static String enterServiceCode() {
         Map<Facility, Integer> facilityMap = ReadAndWriteFacility.readFacilityDataFile();
         Set<Facility> facilities = facilityMap.keySet();
-        boolean isServiceNameExist;
-        String serviceName = "";
+        boolean isServiceCodeExist;
+        String serviceCode = "";
         do {
-            isServiceNameExist = false;
+            isServiceCodeExist = false;
             System.out.println("Enter service name(ex: SVHO-0001 or SVVL-0002 or SVRO-0003)");
-            serviceName = scanner.nextLine();
-            if (!Regex.checkServiceNameFormat(serviceName)) {
+            serviceCode = scanner.nextLine();
+            if (!Regex.checkServiceNameFormat(serviceCode)) {
                 System.out.println("Wrong format, enter again:");
             } else {
                 for (Facility f : facilities) {
-                    if (f.getServiceName().equals(serviceName)) {
+                    if (f.getServiceCode().equals(serviceCode)) {
                         System.out.println("Service name is already exits, enter again:");
-                        isServiceNameExist = true;
+                        isServiceCodeExist = true;
                     }
                 }
             }
-        } while (!Regex.checkServiceNameFormat(serviceName) || isServiceNameExist);
-        return serviceName;
+        } while (!Regex.checkServiceNameFormat(serviceCode) || isServiceCodeExist);
+        return serviceCode;
     }
 
     public static Double enterArea(String a) {
@@ -95,23 +94,23 @@ public class EnterFacilityInformation {
         do {
             flag = false;
             System.out.println("-----CHOOSE RENT TYPE------" +
-                    "\n1. years" +
-                    "\n2. months" +
-                    "\n3. days" +
-                    "\n4. hours");
+                    "\n1. year" +
+                    "\n2. month" +
+                    "\n3. day" +
+                    "\n4. hour");
             choose = scanner.nextLine();
             switch (choose) {
                 case "1":
-                    rentType = "years";
+                    rentType = "year";
                     break;
                 case "2":
-                    rentType = "months";
+                    rentType = "month";
                     break;
                 case "3":
-                    rentType = "days";
+                    rentType = "day";
                     break;
                 case "4":
-                    rentType = "hours";
+                    rentType = "hour";
                     break;
                 default:
                     System.out.println("just choose form 1 - 4, choose again:");

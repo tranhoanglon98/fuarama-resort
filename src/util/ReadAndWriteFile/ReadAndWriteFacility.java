@@ -44,8 +44,8 @@ public class ReadAndWriteFacility {
     }
 
 
-    public static Set<Facility> readFacilityMaintenanceDataFile() {
-        Set<Facility> facilitySet = new LinkedHashSet<>();
+    public static List<Facility> readFacilityMaintenanceDataFile() {
+        List<Facility> facilitySet = new LinkedList<>();
         List<String> strings = ReadAndWriteFile.readDataFile(MAINTENANCE_FACILITY_PATH_FILE);
         for (String s : strings) {
             String[] array = s.split(",");

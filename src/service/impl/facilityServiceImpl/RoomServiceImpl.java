@@ -13,7 +13,7 @@ public class RoomServiceImpl implements RoomService {
     public Facility addFacility() {
         Scanner scanner = new Scanner(System.in);
 
-        String serviceName = EnterFacilityInformation.enterServiceName();
+        String serviceCode = EnterFacilityInformation.enterServiceCode();
 
         double area = EnterFacilityInformation.enterArea("area");
 
@@ -25,7 +25,7 @@ public class RoomServiceImpl implements RoomService {
 
         String freeService = EnterFacilityInformation.chooseFreeService();
 
-        return new Room(serviceName,area,price,maxPeople,rentType,freeService);
+        return new Room(serviceCode,area,price,maxPeople,rentType,freeService);
     }
 
 }

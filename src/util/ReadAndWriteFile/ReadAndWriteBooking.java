@@ -20,7 +20,7 @@ public class ReadAndWriteBooking {
         return bookings;
     }
 
-    public static void writeCustomerDataFile(List<Booking> bookings, boolean append) {
+    public static void writeBookingDataFile(List<Booking> bookings, boolean append) {
         List<String> strings = new ArrayList<>();
         for (Booking b : bookings) {
             strings.add(b.getInfoToCsvFile());

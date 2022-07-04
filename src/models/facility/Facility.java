@@ -3,7 +3,7 @@ package models.facility;
 import java.util.Objects;
 
 public abstract class Facility implements Comparable<Facility>{
-    private String serviceName;
+    private String serviceCode;
     private double area;
     private double price;
     private int maxPeople;
@@ -12,20 +12,20 @@ public abstract class Facility implements Comparable<Facility>{
     public Facility() {
     }
 
-    public Facility(String serviceName, double area, double price, int maxPeople, String rentType) {
-        this.serviceName = serviceName;
+    public Facility(String serviceCode, double area, double price, int maxPeople, String rentType) {
+        this.serviceCode = serviceCode;
         this.area = area;
         this.price = price;
         this.maxPeople = maxPeople;
         this.rentType = rentType;
     }
 
-    public String getServiceName() {
-        return serviceName;
+    public String getServiceCode() {
+        return serviceCode;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public void setServiceCode(String serviceCode) {
+        this.serviceCode = serviceCode;
     }
 
     public double getArea() {
@@ -61,12 +61,12 @@ public abstract class Facility implements Comparable<Facility>{
     }
 
     public String getInfoToCsvFile(){
-        return getServiceName()+","+getArea()+","+getPrice()+","+getMaxPeople()+","+getRentType();
+        return getServiceCode()+","+getArea()+","+getPrice()+","+getMaxPeople()+","+getRentType();
     }
 
     @Override
     public String toString() {
-        return "service name : "+serviceName+", Area: "+area+", Price: "+price+", Max people: "+maxPeople+", Rent type: "+rentType;
+        return "service name : "+ serviceCode +", Area: "+area+", Price: "+price+", Max people: "+maxPeople+", Rent type: "+rentType;
     }
 
     @Override
@@ -74,16 +74,16 @@ public abstract class Facility implements Comparable<Facility>{
         if (this == o) return true;
         if (!(o instanceof Facility)) return false;
         Facility facility = (Facility) o;
-        return Objects.equals(serviceName, facility.serviceName);
+        return Objects.equals(serviceCode, facility.serviceCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(serviceName);
+        return Objects.hash(serviceCode);
     }
 
     @Override
     public int compareTo(Facility o) {
-        return this.serviceName.compareTo(o.serviceName);
+        return this.serviceCode.compareTo(o.serviceCode);
     }
 }

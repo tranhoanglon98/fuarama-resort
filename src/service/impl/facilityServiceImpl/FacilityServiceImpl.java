@@ -7,6 +7,9 @@ import service.facility_service.RoomService;
 import service.facility_service.VillaService;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class FacilityServiceImpl implements FacilityService {
@@ -64,7 +67,13 @@ public class FacilityServiceImpl implements FacilityService {
 
     @Override
     public void displayFacilityMaintenance() {
+        Map<Facility,Integer> facilityIntegerMap = ReadAndWriteFacility.readFacilityDataFile();
+        List<Facility> keys = new ArrayList<>(facilityIntegerMap.keySet());
+        List<Facility> maintenanceFacilities = ReadAndWriteFacility.readFacilityMaintenanceDataFile();
+        for (Facility f:keys){
+            if (facilityIntegerMap.get(f)==5){
 
+            }
+        }
     }
-
 }

@@ -7,19 +7,19 @@ public class Booking {
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private String customerCode;
+    private String serviceCode;
     private String serviceName;
-    private String service;
 
     public Booking() {
     }
 
-    public Booking(String bookingCode, LocalDate checkInDate, LocalDate checkOutDate, String customerCode, String serviceName, String service) {
+    public Booking(String bookingCode, LocalDate checkInDate, LocalDate checkOutDate, String customerCode, String serviceCode, String serviceName) {
         this.bookingCode = bookingCode;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.customerCode = customerCode;
+        this.serviceCode = serviceCode;
         this.serviceName = serviceName;
-        this.service = service;
     }
 
     public String getBookingCode() {
@@ -54,6 +54,14 @@ public class Booking {
         this.customerCode = customerCode;
     }
 
+    public String getServiceCode() {
+        return serviceCode;
+    }
+
+    public void setServiceCode(String serviceCode) {
+        this.serviceCode = serviceCode;
+    }
+
     public String getServiceName() {
         return serviceName;
     }
@@ -62,15 +70,7 @@ public class Booking {
         this.serviceName = serviceName;
     }
 
-    public String getService() {
-        return service;
-    }
-
-    public void setService(String service) {
-        this.service = service;
-    }
-
     public String getInfoToCsvFile(){
-        return bookingCode+","+ checkInDate +","+ checkOutDate +","+customerCode+","+serviceName+","+service;
+        return bookingCode+","+ checkInDate +","+ checkOutDate +","+customerCode+","+ serviceCode +","+ serviceName;
     }
 }
