@@ -1,8 +1,9 @@
 package models.booking_contract;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
-public class Booking {
+public class Booking implements Comparable<Booking> {
     private String bookingCode;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
@@ -70,7 +71,39 @@ public class Booking {
         this.serviceName = serviceName;
     }
 
-    public String getInfoToCsvFile(){
-        return bookingCode+","+ checkInDate +","+ checkOutDate +","+customerCode+","+ serviceCode +","+ serviceName;
+    public String getInfoToCsvFile() {
+        return bookingCode + "," + checkInDate + "," + checkOutDate + "," + customerCode + "," + serviceCode + "," + serviceName;
+    }
+
+    @Override
+    public String toString() {
+        return bookingCode+", service: " + serviceName+", check-in: "+ checkInDate+", check-out: "+checkOutDate+
+                ", customer code: " + customerCode+", service code: " +serviceCode;
+    }
+
+    @Override
+    public int compareTo(Booking o) {
+        if (o.getCheckInDate().isBefore(this.checkInDate)) {
+            return 1;
+        } else if (o.getCheckInDate().isAfter(this.checkInDate)) {
+            return -1;
+        } else if (o.getCheckOutDate().isBefore(this.checkOutDate)) {
+            return 1;
+        } else if (o.getCheckOutDate().isAfter(this.checkOutDate)) {
+            return -1;
+        } else return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Booking)) return false;
+        Booking booking = (Booking) o;
+        return Objects.equals(bookingCode, booking.bookingCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookingCode);
     }
 }

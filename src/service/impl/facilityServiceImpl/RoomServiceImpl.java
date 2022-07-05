@@ -13,7 +13,7 @@ public class RoomServiceImpl implements RoomService {
     public Facility addFacility() {
         Scanner scanner = new Scanner(System.in);
 
-        String serviceCode = EnterFacilityInformation.enterServiceCode();
+        String serviceCode = EnterFacilityInformation.enterServiceCode("room");
 
         double area = EnterFacilityInformation.enterArea("area");
 

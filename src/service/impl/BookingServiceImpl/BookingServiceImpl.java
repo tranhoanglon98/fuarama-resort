@@ -3,27 +3,33 @@ package service.impl.BookingServiceImpl;
 import models.booking_contract.Booking;
 import models.facility.Facility;
 import service.booking_service.BookingService;
-import util.ReadAndWriteFile.ReadAndWriteBooking;
+import util.ReadAndWriteFile.ReadAndWriteBookingContract;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
-import util.enterInformation.bookingInfo.EnterBookingInfo;
+import util.UserException;
+import util.enterInformation.bookingInfo.CheckBookingContractInfo;
+import util.enterInformation.bookingInfo.EnterBookingContractInfo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BookingServiceImpl implements BookingService {
     @Override
     public void addNewBooking() {
-        String customerCode = EnterBookingInfo.chooseCustomerToBooking();
+        String customerCode = EnterBookingContractInfo.chooseCustomerToBooking();
 
-        String serviceCode = EnterBookingInfo.chooseService();
+        String serviceCode = null;
+        try {
+            serviceCode = EnterBookingContractInfo.chooseService();
+        } catch (UserException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
 
-        String bookingCode = EnterBookingInfo.enterBookingCode();
+        String bookingCode = EnterBookingContractInfo.enterBookingCode();
 
-        LocalDate checkInDay = EnterBookingInfo.enterCheckInDay(serviceCode);
+        LocalDate checkInDay = EnterBookingContractInfo.enterCheckInDay(serviceCode);
 
-        LocalDate checkOutDay = EnterBookingInfo.enterCheckOutDay(checkInDay, serviceCode);
+        LocalDate checkOutDay = EnterBookingContractInfo.enterCheckOutDay(checkInDay, serviceCode);
 
         String service;
         if (serviceCode.contains("VL")) {
@@ -34,28 +40,51 @@ public class BookingServiceImpl implements BookingService {
             service = "Room";
         }
 
-        List<Booking> bookings = new ArrayList<>();
+        Set<Booking> bookings = ReadAndWriteBookingContract.readBookingDataFile();
+
         bookings.add(new Booking(bookingCode, checkInDay, checkOutDay, customerCode, serviceCode, service));
-        ReadAndWriteBooking.writeBookingDataFile(bookings, true);
+
+        ReadAndWriteBookingContract.writeBookingDataFile(bookings, bookingCode, false);
 
         Map<Facility, Integer> facilityIntegerMap = ReadAndWriteFacility.readFacilityDataFile();
-        List<Facility> facilityKeyList = new ArrayList<>(facilityIntegerMap.keySet());
+
+        Set<Facility> facilityKeyList = facilityIntegerMap.keySet();
+
         for (Facility f : facilityKeyList) {
             if (f.getServiceCode().equals(serviceCode)) {
-                facilityIntegerMap.put(f, facilityIntegerMap.get(f) + 1);
+                facilityIntegerMap.replace(f, facilityIntegerMap.get(f) + 1);
                 break;
             }
         }
+
         ReadAndWriteFacility.writeFacilityDataFile(facilityIntegerMap, false);
     }
 
     @Override
     public void displayBookingList() {
-
+        CheckBookingContractInfo.checkBookingDate();
+        Set<Booking> bookings = ReadAndWriteBookingContract.readBookingDataFile();
+        int index = 1;
+        for (Booking b : bookings) {
+            System.out.println((index++) + ". " + b);
+        }
     }
 
     @Override
     public void createNewContract() {
+        Booking booking = CheckBookingContractInfo.findBookingNeedCreateContract();
+        if (booking==null){
+            System.out.println("There is no 'booking' need to create contract.");
+            return;
+        }
+
+        String bookingCode = booking.getBookingCode();
+
+        String contractCode = EnterBookingContractInfo.getContractCode(bookingCode);
+
+        double deposit = EnterBookingContractInfo.enterDeposit(booking);
+
+
 
     }
 

@@ -3,16 +3,16 @@ package util.enterInformation.bookingInfo;
 import models.booking_contract.Booking;
 import models.facility.Facility;
 import models.person.Customer;
-import util.ReadAndWriteFile.ReadAndWriteBooking;
+import util.ReadAndWriteFile.ReadAndWriteBookingContract;
 import util.ReadAndWriteFile.ReadAndWriteCustomer;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
-
+import util.UserException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class EnterBookingInfo {
+public class EnterBookingContractInfo {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static String chooseCustomerToBooking() {
@@ -41,19 +41,12 @@ public class EnterBookingInfo {
     }
 
     public static String enterBookingCode() {
-        String bookingCode;
-        List<Booking> bookings = ReadAndWriteBooking.readBookingDataFile();
-        if (bookings.isEmpty()) {
+        String bookingCode = ReadAndWriteBookingContract.readMaxBookingCode();
+        if (bookingCode == null) {
             bookingCode = "BK-1";
         } else {
-            int max = 0;
-            for (Booking b : bookings) {
-                String[] arr = b.getBookingCode().split("-");
-                if (max < Integer.parseInt(arr[1])) {
-                    max = Integer.parseInt(arr[1]);
-                }
-            }
-            bookingCode = "BK-" + (max + 1);
+            String[] array = bookingCode.split("-");
+            bookingCode = array[0] + "-" + (Integer.parseInt(array[1]) + 1);
         }
         return bookingCode;
     }
@@ -70,7 +63,7 @@ public class EnterBookingInfo {
                     System.err.println("Check-in day cannot be earlier than today");
                     flag = true;
                 } else {
-                    List<Booking> bookingList = ReadAndWriteBooking.readBookingDataFile();
+                    Set<Booking> bookingList = ReadAndWriteBookingContract.readBookingDataFile();
                     for (Booking b : bookingList) {
                         if (b.getServiceCode().equals(serviceCode)) {
                             if (!checkInDay.isBefore(b.getCheckInDate()) && !checkInDay.isAfter(b.getCheckOutDate())) {
@@ -98,13 +91,13 @@ public class EnterBookingInfo {
                 System.out.println("Enter check-out day:");
                 checkOutDay = LocalDate.parse(SCANNER.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 if (!checkOutDay.isBefore(checkInDay)) {
-                    List<Booking> bookingList = ReadAndWriteBooking.readBookingDataFile();
+                    Set<Booking> bookingList = ReadAndWriteBookingContract.readBookingDataFile();
                     for (Booking b : bookingList) {
                         if (b.getServiceCode().equals(serviceCode)) {
                             if ((checkInDay.isBefore(b.getCheckInDate()) && checkOutDay.isBefore(b.getCheckInDate())) || checkInDay.isAfter(b.getCheckOutDate())) {
                                 flag = false;
                             } else {
-                                System.err.println("Room was booked for this day, enter check-in day again:");
+                                System.err.println("Room was booked for this day, enter check-out day again:");
                                 flag = true;
                             }
                         }
@@ -121,8 +114,7 @@ public class EnterBookingInfo {
         return checkOutDay;
     }
 
-
-    public static String chooseService() {
+    public static String chooseService() throws UserException {
         Map<Facility, Integer> map = ReadAndWriteFacility.readFacilityDataFile();
         List<Facility> keyList = new LinkedList<>(map.keySet());
         Set<Facility> facilityMaintenance = new LinkedHashSet<>();
@@ -134,10 +126,14 @@ public class EnterBookingInfo {
                 i--;
             }
         }
-        ReadAndWriteFacility.writeFacilityDataFile(map,false);
+        ReadAndWriteFacility.writeFacilityDataFile(map, false);
         ReadAndWriteFacility.writeFacilityMaintenanceDataFile(facilityMaintenance, true);
-        for (int i = 0; i < keyList.size(); i++) {
-            System.out.println((i + 1) + ". " + keyList.get(i).getServiceCode() + ", rent by " + keyList.get(i).getRentType());
+        if (keyList.isEmpty()) {
+            throw new UserException("There is no blank facility");
+        } else {
+            for (int i = 0; i < keyList.size(); i++) {
+                System.out.println((i + 1) + ". " + keyList.get(i).getServiceCode());
+            }
         }
 
         int choose;
@@ -157,4 +153,54 @@ public class EnterBookingInfo {
 
         return keyList.get(choose - 1).getServiceCode();
     }
+
+    public static String getContractCode(String bookingCode) {
+        String[] array = bookingCode.split("-");
+        return "CT-" + array[1];
+    }
+
+    public static Double enterDeposit(Booking booking) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<Facility, Integer> facilityMap = ReadAndWriteFacility.readFacilityDataFile();
+
+        Set<Facility> facilitySet = facilityMap.keySet();
+
+        double deposit = 0d;
+        for (Facility f : facilitySet) {
+            if (f.getServiceCode().equals(booking.getServiceCode())) {
+                System.out.println("Total payment: " + f.getPrice());
+                do {
+                    try {
+                        System.out.println("Enter deposit:");
+                        deposit = Double.parseDouble(scanner.nextLine());
+                        if (deposit < 0) {
+                            throw new UserException("deposit < 0");
+                        } else if (deposit > f.getPrice()) {
+                            throw new UserException("deposit > total payment");
+                        } else {
+                            break;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.err.println("Wrong format, enter again:");
+                    } catch (UserException e) {
+                        System.err.println(e.getMessage());
+                    }
+                } while (true);
+            }
+        }
+        return deposit;
+    }
+
+//    public static Double getTotalPayment(Booking booking){
+//        Map<Facility,Integer> facilityIntegerMap = ReadAndWriteFacility.readFacilityDataFile();
+//        Set<Facility> facilitySet = facilityIntegerMap.keySet();
+//        for (Facility f:facilitySet){
+//            if (booking.getServiceCode().equals(f.getServiceCode())){
+//
+//            }
+//        }
+//
+//
+//    }
 }

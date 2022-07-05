@@ -10,7 +10,7 @@ public class VillaServiceImpl implements VillaService {
     @Override
     public Facility addFacility() {
 
-        String serviceCode = EnterFacilityInformation.enterServiceCode();
+        String serviceCode = EnterFacilityInformation.enterServiceCode("villa");
 
         double area = EnterFacilityInformation.enterArea("area");
 

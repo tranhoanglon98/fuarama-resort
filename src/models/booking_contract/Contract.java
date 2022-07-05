@@ -4,17 +4,17 @@ public class Contract {
     private String contractCode;
     private String bookingCode;
     private double deposit;
-    private double totalMoney;
+    private double totalPayment;
     private String customerCode;
 
     public Contract() {
     }
 
-    public Contract(String contractCode, String bookingCode, double deposit, double totalMoney, String customerCode) {
+    public Contract(String contractCode, String bookingCode, double deposit, double totalPayment, String customerCode) {
         this.contractCode = contractCode;
         this.bookingCode = bookingCode;
         this.deposit = deposit;
-        this.totalMoney = totalMoney;
+        this.totalPayment = totalPayment;
         this.customerCode = customerCode;
     }
 
@@ -42,12 +42,12 @@ public class Contract {
         this.deposit = deposit;
     }
 
-    public double getTotalMoney() {
-        return totalMoney;
+    public double getTotalPayment() {
+        return totalPayment;
     }
 
-    public void setTotalMoney(double totalMoney) {
-        this.totalMoney = totalMoney;
+    public void setTotalPayment(double totalPayment) {
+        this.totalPayment = totalPayment;
     }
 
     public String getCustomerCode() {
@@ -56,5 +56,9 @@ public class Contract {
 
     public void setCustomerCode(String customerCode) {
         this.customerCode = customerCode;
+    }
+
+    public  String  getInfoToCsvFile(){
+        return contractCode+","+bookingCode+","+deposit+","+totalPayment+","+customerCode;
     }
 }

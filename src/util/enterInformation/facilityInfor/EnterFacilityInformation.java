@@ -11,16 +11,31 @@ import java.util.Set;
 public class EnterFacilityInformation {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static String enterServiceCode() {
+    public static String enterServiceCode(String service) {
         Map<Facility, Integer> facilityMap = ReadAndWriteFacility.readFacilityDataFile();
         Set<Facility> facilities = facilityMap.keySet();
         boolean isServiceCodeExist;
         String serviceCode = "";
         do {
             isServiceCodeExist = false;
-            System.out.println("Enter service name(ex: SVHO-0001 or SVVL-0002 or SVRO-0003)");
-            serviceCode = scanner.nextLine();
-            if (!Regex.checkServiceNameFormat(serviceCode)) {
+            switch (service) {
+                case "house": {
+                    System.out.println("Enter service name(ex: SVHO-0001)");
+                    serviceCode = scanner.nextLine();
+                }
+                break;
+                case "villa": {
+                    System.out.println("Enter service name(ex: SVVL-0001)");
+                    serviceCode = scanner.nextLine();
+                }
+                break;
+                case "room": {
+                    System.out.println("Enter service name(ex: SVRO-0001)");
+                    serviceCode = scanner.nextLine();
+                }
+                break;
+            }
+            if (!Regex.checkServiceCodeFormat(serviceCode, service)) {
                 System.out.println("Wrong format, enter again:");
             } else {
                 for (Facility f : facilities) {
@@ -30,7 +45,7 @@ public class EnterFacilityInformation {
                     }
                 }
             }
-        } while (!Regex.checkServiceNameFormat(serviceCode) || isServiceCodeExist);
+        } while (!Regex.checkServiceCodeFormat(serviceCode, service) || isServiceCodeExist);
         return serviceCode;
     }
 

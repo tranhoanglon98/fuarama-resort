@@ -7,33 +7,31 @@ import service.facility_service.RoomService;
 import service.facility_service.VillaService;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class FacilityServiceImpl implements FacilityService {
-    private static Scanner scanner = new Scanner(System.in);
-    private static HouseService houseService = new HouseServiceImpl();
-    private static VillaService villaService = new VillaServiceImpl();
-    private static RoomService roomService = new RoomServiceImpl();
+    private static final Scanner SCANNER = new Scanner(System.in);
+    private static  HouseService houseService;
+    private static  VillaService villaService;
+    private static  RoomService roomService;
 
 
     @Override
     public void displayFacilityList() {
         Map<Facility, Integer> facilityMap = ReadAndWriteFacility.readFacilityDataFile();
-        List<Facility> facilities = new ArrayList<>();
-        facilities.addAll(facilityMap.keySet());
+        List<Facility> facilities = new ArrayList<>(facilityMap.keySet());
         Collections.sort(facilities);
-        int i = 1;
-        for (Facility f : facilities) {
-            System.out.println((i++) + ". " + f.toString() + ", booked: " + facilityMap.get(f));
+        for (int i = 0; i < facilities.size(); i++) {
+            System.out.println((i+1) + ". "+facilities.get(i)+", booked: " + facilityMap.get(facilities.get(i)));
         }
         System.out.println("--------------------------------------------------");
     }
 
     @Override
     public void addFacility() {
+        houseService = new HouseServiceImpl();
+        villaService = new VillaServiceImpl();
+        roomService = new RoomServiceImpl();
         Map<Facility, Integer> facilityMap = new LinkedHashMap<>();
         String choose = "";
 
@@ -44,7 +42,7 @@ public class FacilityServiceImpl implements FacilityService {
                     "3.\tAdd New Room\n" +
                     "4.\tBack to menu\n" +
                     "\nEnter your choice");
-            choose = scanner.nextLine();
+            choose = SCANNER.nextLine();
             switch (choose) {
                 case "1":
                     facilityMap.put(villaService.addFacility(), 0);
