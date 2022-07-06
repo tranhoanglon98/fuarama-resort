@@ -61,4 +61,13 @@ public class Contract {
     public  String  getInfoToCsvFile(){
         return contractCode+","+bookingCode+","+deposit+","+totalPayment+","+customerCode;
     }
+
+    @Override
+    public String toString() {
+        return "contractCode: " + contractCode +
+                ", bookingCode: " + bookingCode +
+                ", deposit: " + deposit +
+                ", totalPayment: " + totalPayment +
+                ", customerCode: " + customerCode ;
+    }
 }

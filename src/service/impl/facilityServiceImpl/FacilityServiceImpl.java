@@ -6,6 +6,7 @@ import service.facility_service.HouseService;
 import service.facility_service.RoomService;
 import service.facility_service.VillaService;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
+import util.enterInformation.facilityInfor.CheckFacilityInfo;
 
 import java.util.*;
 
@@ -65,13 +66,11 @@ public class FacilityServiceImpl implements FacilityService {
 
     @Override
     public void displayFacilityMaintenance() {
-        Map<Facility,Integer> facilityIntegerMap = ReadAndWriteFacility.readFacilityDataFile();
-        List<Facility> keys = new ArrayList<>(facilityIntegerMap.keySet());
-        List<Facility> maintenanceFacilities = ReadAndWriteFacility.readFacilityMaintenanceDataFile();
-        for (Facility f:keys){
-            if (facilityIntegerMap.get(f)==5){
-
-            }
+        CheckFacilityInfo.checkMaintenanceFacility();
+        List<Facility> facilities = ReadAndWriteFacility.readFacilityMaintenanceDataFile();
+        int index=1;
+        for (Facility f:facilities){
+            System.out.println((index++)+". " + f);
         }
     }
 }

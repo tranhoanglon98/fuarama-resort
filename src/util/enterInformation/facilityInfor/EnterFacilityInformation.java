@@ -4,34 +4,36 @@ import models.facility.Facility;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
 import util.enterInformation.Regex;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 public class EnterFacilityInformation {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static String enterServiceCode(String service) {
         Map<Facility, Integer> facilityMap = ReadAndWriteFacility.readFacilityDataFile();
         Set<Facility> facilities = facilityMap.keySet();
+        List<Facility> maintenanceFacility = ReadAndWriteFacility.readFacilityMaintenanceDataFile();
         boolean isServiceCodeExist;
         String serviceCode = "";
         do {
             isServiceCodeExist = false;
             switch (service) {
                 case "house": {
-                    System.out.println("Enter service name(ex: SVHO-0001)");
-                    serviceCode = scanner.nextLine();
+                    System.out.println("Enter service code(ex: SVHO-0001)");
+                    serviceCode = SCANNER.nextLine();
                 }
                 break;
                 case "villa": {
                     System.out.println("Enter service name(ex: SVVL-0001)");
-                    serviceCode = scanner.nextLine();
+                    serviceCode = SCANNER.nextLine();
                 }
                 break;
                 case "room": {
                     System.out.println("Enter service name(ex: SVRO-0001)");
-                    serviceCode = scanner.nextLine();
+                    serviceCode = SCANNER.nextLine();
                 }
                 break;
             }
@@ -42,6 +44,18 @@ public class EnterFacilityInformation {
                     if (f.getServiceCode().equals(serviceCode)) {
                         System.out.println("Service name is already exits, enter again:");
                         isServiceCodeExist = true;
+                        break;
+                    }
+                }
+                if (isServiceCodeExist){
+                    break;
+                 }else {
+                    for (Facility f:maintenanceFacility){
+                        if (f.getServiceCode().equals(serviceCode)) {
+                            System.out.println("Service name is already exits, enter again:");
+                            isServiceCodeExist = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -54,11 +68,12 @@ public class EnterFacilityInformation {
         do {
             try {
                 System.out.println("Enter " + a + ":");
-                area = Double.parseDouble(scanner.nextLine());
+                area = Double.parseDouble(SCANNER.nextLine());
                 if (area < 30) {
                     System.out.println("area have to > 30m2, enter again");
+                }else {
+                    break;
                 }
-                break;
             } catch (NumberFormatException e) {
                 System.out.println("Wrong number format, enter again");
             }
@@ -73,7 +88,7 @@ public class EnterFacilityInformation {
             flag = false;
             try {
                 System.out.println("Enter price");
-                price = Double.parseDouble(scanner.nextLine());
+                price = Double.parseDouble(SCANNER.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Wrong number format, enter again");
                 flag = true;
@@ -89,7 +104,7 @@ public class EnterFacilityInformation {
             flag = false;
             try {
                 System.out.println("Enter max people");
-                maxPeople = Integer.parseInt(scanner.nextLine());
+                maxPeople = Integer.parseInt(SCANNER.nextLine());
                 if (maxPeople < 1 || maxPeople > 20) {
                     System.out.println("max people must be in range 1-20, enter again");
                     flag = true;
@@ -113,7 +128,7 @@ public class EnterFacilityInformation {
                     "\n2. month" +
                     "\n3. day" +
                     "\n4. hour");
-            choose = scanner.nextLine();
+            choose = SCANNER.nextLine();
             switch (choose) {
                 case "1":
                     rentType = "year";
@@ -147,7 +162,7 @@ public class EnterFacilityInformation {
                     "\n3. Deluxe  room" +
                     "\n4. Suite  room" +
                     "\nEnter your choice:");
-            choose = scanner.nextLine();
+            choose = SCANNER.nextLine();
             switch (choose) {
                 case "1":
                     roomStandard = "Standard room";
@@ -176,7 +191,7 @@ public class EnterFacilityInformation {
             flag = false;
             System.out.println("Enter floors:");
             try {
-                floors = Integer.parseInt(scanner.nextLine());
+                floors = Integer.parseInt(SCANNER.nextLine());
                 if (floors < 0) {
                     System.out.println("floors must be > 0, enter again");
                     flag = true;
@@ -202,7 +217,7 @@ public class EnterFacilityInformation {
                     "\n4. Bar" +
                     "\n5. all service" +
                     "\nEnter your choice");
-            choose = scanner.nextLine();
+            choose = SCANNER.nextLine();
             switch (choose) {
                 case "1":
                     freeService = "BreakFast";

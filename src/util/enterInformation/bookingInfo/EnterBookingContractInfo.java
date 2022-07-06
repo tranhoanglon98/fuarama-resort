@@ -1,16 +1,21 @@
 package util.enterInformation.bookingInfo;
 
 import models.booking_contract.Booking;
+import models.booking_contract.Contract;
 import models.facility.Facility;
 import models.person.Customer;
 import util.ReadAndWriteFile.ReadAndWriteBookingContract;
 import util.ReadAndWriteFile.ReadAndWriteCustomer;
 import util.ReadAndWriteFile.ReadAndWriteFacility;
 import util.UserException;
+import util.enterInformation.facilityInfor.CheckFacilityInfo;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class EnterBookingContractInfo {
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -115,19 +120,10 @@ public class EnterBookingContractInfo {
     }
 
     public static String chooseService() throws UserException {
+        CheckFacilityInfo.checkMaintenanceFacility();
         Map<Facility, Integer> map = ReadAndWriteFacility.readFacilityDataFile();
         List<Facility> keyList = new LinkedList<>(map.keySet());
-        Set<Facility> facilityMaintenance = new LinkedHashSet<>();
-        for (int i = 0; i < keyList.size(); i++) {
-            if (map.get(keyList.get(i)) == 5) {
-                facilityMaintenance.add(keyList.get(i));
-                map.remove(keyList.get(i));
-                keyList.remove(keyList.get(i));
-                i--;
-            }
-        }
-        ReadAndWriteFacility.writeFacilityDataFile(map, false);
-        ReadAndWriteFacility.writeFacilityMaintenanceDataFile(facilityMaintenance, true);
+
         if (keyList.isEmpty()) {
             throw new UserException("There is no blank facility");
         } else {
@@ -159,24 +155,19 @@ public class EnterBookingContractInfo {
         return "CT-" + array[1];
     }
 
-    public static Double enterDeposit(Booking booking) {
+    public static Double enterDeposit(double totalPayment) {
         Scanner scanner = new Scanner(System.in);
 
-        Map<Facility, Integer> facilityMap = ReadAndWriteFacility.readFacilityDataFile();
-
-        Set<Facility> facilitySet = facilityMap.keySet();
-
         double deposit = 0d;
-        for (Facility f : facilitySet) {
-            if (f.getServiceCode().equals(booking.getServiceCode())) {
-                System.out.println("Total payment: " + f.getPrice());
+
+                System.out.println("Total payment: " + totalPayment);
                 do {
                     try {
                         System.out.println("Enter deposit:");
                         deposit = Double.parseDouble(scanner.nextLine());
                         if (deposit < 0) {
                             throw new UserException("deposit < 0");
-                        } else if (deposit > f.getPrice()) {
+                        } else if (deposit > totalPayment) {
                             throw new UserException("deposit > total payment");
                         } else {
                             break;
@@ -187,20 +178,50 @@ public class EnterBookingContractInfo {
                         System.err.println(e.getMessage());
                     }
                 } while (true);
-            }
-        }
+
         return deposit;
     }
 
-//    public static Double getTotalPayment(Booking booking){
-//        Map<Facility,Integer> facilityIntegerMap = ReadAndWriteFacility.readFacilityDataFile();
-//        Set<Facility> facilitySet = facilityIntegerMap.keySet();
-//        for (Facility f:facilitySet){
-//            if (booking.getServiceCode().equals(f.getServiceCode())){
-//
-//            }
-//        }
-//
-//
-//    }
+    public static Double getTotalPayment(Booking booking){
+        Map<Facility,Integer> facilityIntegerMap = ReadAndWriteFacility.readFacilityDataFile();
+        Set<Facility> facilitySet = facilityIntegerMap.keySet();
+        double totalPayment = 0d;
+        for (Facility f:facilitySet){
+            if (booking.getServiceCode().equals(f.getServiceCode())){
+                long rentalPeriod = DAYS.between(booking.getCheckInDate(), booking.getCheckOutDate());
+                totalPayment = rentalPeriod*f.getPrice();
+                break;
+            }
+        }
+        return totalPayment;
+    }
+
+    public static Contract chooseContractToEdit(){
+        Scanner scanner = new Scanner(System.in);
+        List<Contract> contracts = ReadAndWriteBookingContract.ReadContractDataFile();
+        int index =1;
+
+        for (Contract c:contracts){
+            System.out.println((index++)+". "+c);
+        }
+
+        int choose;
+        do {
+            try {
+                System.out.println("Enter your choice:");
+                choose = Integer.parseInt(scanner.nextLine());
+                if (choose<1||choose>contracts.size()){
+                    throw new UserException("choose exception");
+                }else {
+                    break;
+                }
+            }catch (NumberFormatException e){
+                System.err.println(e.getMessage()+", enter again");
+            }catch (UserException e){
+                System.out.println(e.getMessage()+", choose: 1 - "+contracts.size()+", enter again:");
+            }
+        }while (true);
+        return contracts.get(choose-1);
+
+    }
 }

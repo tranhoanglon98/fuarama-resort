@@ -1,6 +1,7 @@
 package service.impl.BookingServiceImpl;
 
 import models.booking_contract.Booking;
+import models.booking_contract.Contract;
 import models.facility.Facility;
 import service.booking_service.BookingService;
 import util.ReadAndWriteFile.ReadAndWriteBookingContract;
@@ -44,7 +45,7 @@ public class BookingServiceImpl implements BookingService {
 
         bookings.add(new Booking(bookingCode, checkInDay, checkOutDay, customerCode, serviceCode, service));
 
-        ReadAndWriteBookingContract.writeBookingDataFile(bookings, bookingCode, false);
+        ReadAndWriteBookingContract.writeBookingDataFile(bookings,bookingCode,false);
 
         Map<Facility, Integer> facilityIntegerMap = ReadAndWriteFacility.readFacilityDataFile();
 
@@ -56,7 +57,6 @@ public class BookingServiceImpl implements BookingService {
                 break;
             }
         }
-
         ReadAndWriteFacility.writeFacilityDataFile(facilityIntegerMap, false);
     }
 
@@ -73,7 +73,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void createNewContract() {
         Booking booking = CheckBookingContractInfo.findBookingNeedCreateContract();
-        if (booking==null){
+        if (booking == null) {
             System.out.println("There is no 'booking' need to create contract.");
             return;
         }
@@ -82,19 +82,37 @@ public class BookingServiceImpl implements BookingService {
 
         String contractCode = EnterBookingContractInfo.getContractCode(bookingCode);
 
-        double deposit = EnterBookingContractInfo.enterDeposit(booking);
+        double totalPayment = EnterBookingContractInfo.getTotalPayment(booking);
 
+        double deposit = EnterBookingContractInfo.enterDeposit(totalPayment);
 
+        String customerCode = booking.getCustomerCode();
 
+        List<Contract> contracts = new ArrayList<>();
+        contracts.add(new Contract(contractCode, bookingCode, deposit, totalPayment, customerCode));
+        ReadAndWriteBookingContract.WriteContractDataFile(contracts, true);
     }
 
     @Override
     public void displayContractList() {
+        List<Contract> contracts = ReadAndWriteBookingContract.ReadContractDataFile();
+        int index = 1;
+        for (Contract c : contracts) {
+            System.out.println((index++) + ". " + c);
+        }
 
     }
 
     @Override
     public void editContract() {
-
+        List<Contract> contracts = ReadAndWriteBookingContract.ReadContractDataFile();
+        Contract contractToEdit = EnterBookingContractInfo.chooseContractToEdit();
+        for (Contract c : contracts) {
+            if (c.getContractCode().equals(contractToEdit.getContractCode())) {
+                double deposit = EnterBookingContractInfo.enterDeposit(c.getTotalPayment());
+                c.setDeposit(deposit);
+                break;
+            }
+        }
     }
 }

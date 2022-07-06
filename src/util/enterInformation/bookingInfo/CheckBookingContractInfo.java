@@ -39,13 +39,17 @@ public class CheckBookingContractInfo {
             boolean flag = true;
             while (flag) {
                 String bookingCode = bookingQueue.peek().getBookingCode();
-                for (Contract c : contracts) {
-                    if (c.getBookingCode().equals(bookingCode)) {
-                        bookingQueue.poll();
-                        flag =true;
-                        break;
-                    }else {
-                        flag =false;
+                if (contracts.isEmpty()){
+                    return bookingQueue.poll();
+                }else {
+                    for (Contract c : contracts) {
+                        if (c.getBookingCode().equals(bookingCode)) {
+                            bookingQueue.poll();
+                            flag =true;
+                            break;
+                        }else {
+                            flag =false;
+                        }
                     }
                 }
             }
