@@ -2,9 +2,9 @@ package service.impl.personServiceImpl;
 
 import models.person.Customer;
 import service.person_service.CustomerService;
-import util.enterInformation.PersonInfor.EnterPersonInfomation;
-import util.ReadAndWriteFile.ReadAndWriteCustomer;
-import util.enterInformation.Regex;
+import common.enterInformation.PersonInfor.EnterPersonInfomation;
+import common.ReadAndWriteFile.ReadAndWriteCustomer;
+import common.enterInformation.Regex;
 
 import java.time.LocalDate;
 import java.util.LinkedList;

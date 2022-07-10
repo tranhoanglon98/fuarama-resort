@@ -3,7 +3,7 @@ package service.impl.facilityServiceImpl;
 import models.facility.Facility;
 import models.facility.House;
 import service.facility_service.HouseService;
-import util.enterInformation.facilityInfor.EnterFacilityInformation;
+import common.enterInformation.facilityInfor.EnterFacilityInformation;
 
 public class HouseServiceImpl implements HouseService {
 

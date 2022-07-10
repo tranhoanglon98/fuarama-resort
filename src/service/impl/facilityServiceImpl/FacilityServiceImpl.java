@@ -5,8 +5,8 @@ import service.facility_service.FacilityService;
 import service.facility_service.HouseService;
 import service.facility_service.RoomService;
 import service.facility_service.VillaService;
-import util.ReadAndWriteFile.ReadAndWriteFacility;
-import util.enterInformation.facilityInfor.CheckFacilityInfo;
+import common.ReadAndWriteFile.ReadAndWriteFacility;
+import common.enterInformation.facilityInfor.CheckFacilityInfo;
 
 import java.util.*;
 

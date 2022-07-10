@@ -3,7 +3,7 @@ package service.impl.facilityServiceImpl;
 import models.facility.Facility;
 import models.facility.Room;
 import service.facility_service.RoomService;
-import util.enterInformation.facilityInfor.EnterFacilityInformation;
+import common.enterInformation.facilityInfor.EnterFacilityInformation;
 
 import java.util.Scanner;
 

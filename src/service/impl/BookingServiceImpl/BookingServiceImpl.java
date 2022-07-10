@@ -4,12 +4,11 @@ import models.booking_contract.Booking;
 import models.booking_contract.Contract;
 import models.facility.Facility;
 import service.booking_service.BookingService;
-import util.ReadAndWriteFile.ReadAndWriteBookingContract;
-import util.ReadAndWriteFile.ReadAndWriteFacility;
-import util.UserException;
-import util.enterInformation.bookingInfo.CheckBookingContractInfo;
-import util.enterInformation.bookingInfo.EnterBookingContractInfo;
-
+import common.ReadAndWriteFile.ReadAndWriteBookingContract;
+import common.ReadAndWriteFile.ReadAndWriteFacility;
+import common.UserException;
+import common.enterInformation.bookingInfo.CheckBookingContractInfo;
+import common.enterInformation.bookingInfo.EnterBookingContractInfo;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -72,6 +71,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void createNewContract() {
+        CheckBookingContractInfo.checkBookingDate();
         Booking booking = CheckBookingContractInfo.findBookingNeedCreateContract();
         if (booking == null) {
             System.out.println("There is no 'booking' need to create contract.");
